@@ -1,102 +1,44 @@
-# render.yaml
-databases:
-  - name: app-postgres
-    databaseName: appdb
-    plan: free                 # free | starter | standard | pro
-    user: app
-    ipAllowList: []            # add CIDRs to allow direct connections if needed
-    # Render will expose env var: DATABASE_URL
+# render.yaml — Ghost CMS on Render (Docker, Blueprint schema-compliant)
 
-redis:
-  - name: app-redis
-    plan: free                 # free | starter | standard
-    # Render will expose env var: REDIS_URL
+databases:
+  - name: ghost-db
+    plan: free
+    databaseName: ghost
+    user: ghost_user
 
 services:
-  # --- Web service ---
   - type: web
-    name: app-web
-    env: node                  # or "python", "ruby", "go", "docker"
-    runtime: node
-    repo: .
-    branch: main
-    buildCommand: npm ci && npm run build
-    startCommand: npm run start
-    autoDeploy: true
+    name: ghost
+    runtime: docker            # ⬅️ use 'runtime', not 'env'
     plan: starter
-    healthCheckPath: /healthz
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: PORT
-        value: "10000"         # Render sets PORT; many frameworks read it automatically
-      - key: DATABASE_URL
-        fromDatabase:
-          name: app-postgres
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          name: app-redis
-          type: redis
-          property: connectionString
-      # - key: APP_SECRET
-      #   sync: false           # set value in dashboard
-
-  # --- Background worker (queue consumers, schedulers, etc.) ---
-  - type: worker
-    name: app-worker
-    env: node
-    runtime: node
-    repo: .
-    branch: main
-    buildCommand: npm ci && npm run build
-    startCommand: node worker.js
+    region: oregon
+    dockerfilePath: Dockerfile
+    healthCheckPath: /
     autoDeploy: true
-    plan: starter
+
     envVars:
       - key: NODE_ENV
         value: production
-      - key: DATABASE_URL
+      - key: url
+        value: https://yourapp.onrender.com
+      - key: server__host
+        value: 0.0.0.0
+      - key: server__port
+        value: 10000
+
+      # Database config (single connection string from the DB resource)
+      - key: database__client
+        value: pg
+      - key: database__connection__connectionString
         fromDatabase:
-          name: app-postgres
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          name: app-redis
-          type: redis
+          name: ghost-db
           property: connectionString
 
-  # --- Cron job (Render “cron” type runs on a schedule) ---
-  - type: cron
-    name: app-cron-nightly
-    env: node
-    runtime: node
-    repo: .
-    branch: main
-    buildCommand: npm ci && npm run build
-    startCommand: node scripts/nightly.js
-    schedule: "0 0 * * *"     # every day at 00:00 UTC (CRON format)
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: DATABASE_URL
-        fromDatabase:
-          name: app-postgres
-          property: connectionString
+      # Helpful for managed Postgres SSL defaults
+      - key: database__connection__ssl__rejectUnauthorized
+        value: "false"
 
-  # --- Static site (optional) ---
-  - type: static
-    name: app-static
-    repo: .
-    branch: main
-    buildCommand: npm ci && npm run build:static
-    staticPublishPath: dist
-    pullRequestPreviewsEnabled: true
-    headers:
-      - path: /*
-        name: Cache-Control
-        value: public, max-age=3600
-    routes:
-      - type: rewrite
-        source: /api/*
-        destination: https://app-web.onrender.com/api/:splat
+    disk:
+      name: ghost-content
+      mountPath: /var/lib/ghost/content
+      sizeGB: 5
