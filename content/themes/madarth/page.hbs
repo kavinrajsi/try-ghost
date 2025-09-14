@@ -1,0 +1,46 @@
+{{!< default}}
+
+<section class="padding:top:80px">
+  <div class="display__container--box">
+    {{#if @page.show_title_and_feature_image}}
+      {{#if feature_image}}
+        <img loading="lazy" src="{{feature_image}}" alt="{{title}}">
+      {{/if}}
+    {{/if}}
+  </div>
+</section>
+
+<section class="padding:bottom:32px padding:top:32px">
+  <div class="display__container--box">
+    <div class="display:grid grid:column:1">
+      <div class="content">
+        {{#if @page.show_title_and_feature_image}}
+          <h1 class="title">{{title}}</h1>
+        {{/if}}
+
+        <section class="gh-content">
+          {{content}}
+        </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="whatsapp-icon-right">
+  <a target="_blank" class="whatsappLink"
+     href="https://api.whatsapp.com/send?phone=916374115422&amp;text=Hi there! I'm looking for a digital partner for my brand! I would like to know more about The SearchMadarth®!">
+     {{!-- keep your WhatsApp SVG unchanged --}}
+     <svg xmlns="http://www.w3.org/2000/svg" width="18.224" height="18.299" viewBox="0 0 18.224 18.299">
+       <!-- ... SVG content ... -->
+     </svg>
+  </a>
+</div>
+
+<div class="mobile--quick--navigation">
+  <nav>
+    <a class="emailLink" href="mailto:business@madarth.com">Email Us</a>
+    <a class="whatsappLink" href="https://api.whatsapp.com/send?phone=916374115422&amp;text=Hi there! I'm looking for a digital partner for my brand! I would like to know more about The SearchMadarth®!">
+      Whatsapp Us
+    </a>
+  </nav>
+</div>

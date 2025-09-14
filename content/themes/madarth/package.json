@@ -1,0 +1,53 @@
+{
+  "name": "madarth",
+  "version": "0.0.1",
+  "author": {
+    "name": "kavinraj",
+    "email": "kavin@madarth.com",
+    "url": "https://madarth.com/"
+  },
+  "keywords": [
+    "ghost",
+    "theme",
+    "ghost-theme"
+  ],
+  "devDependencies": {
+    "@tryghost/release-utils": "0.8.1",
+    "autoprefixer": "10.4.7",
+    "beeper": "2.1.0",
+    "cssnano": "^7.1.1",
+    "gscan": "4.48.0",
+    "gulp": "4.0.2",
+    "gulp-concat": "2.6.1",
+    "gulp-livereload": "4.0.2",
+    "gulp-postcss": "9.0.1",
+    "gulp-sass": "^6.0.1",
+    "gulp-uglify": "3.0.2",
+    "gulp-zip": "5.1.0",
+    "inquirer": "8.2.4",
+    "postcss": "^8.5.6",
+    "postcss-color-mod-function": "3.0.3",
+    "postcss-easy-import": "4.0.0",
+    "pump": "3.0.0",
+    "sass": "^1.92.1"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "config": {
+    "posts_per_page": 5,
+    "custom": {
+      "color_scheme": {
+        "type": "select",
+        "options": ["auto", "light", "dark"],
+        "default": "auto"
+      }
+    }
+  },
+  "card_assets": true,
+  "renovate": {
+    "extends": [
+      "@tryghost:theme"
+    ]
+  }
+}

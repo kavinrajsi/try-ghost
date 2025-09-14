@@ -1,0 +1,62 @@
+{{!< default}}
+
+<main class="page:case:study:index">
+  <section
+    class="display__container--box page__introduction page__introduction--blog-title display:flex justify-content:space-between padding:top:80px padding:bottom:80px"
+  >
+    <h1 class="font:size:48px">Blog</h1>
+  </section>
+  <section class="display__container--box padding:top:24px padding:bottom:24px">
+    <div
+      class="our_blog-lists padding:bottom:48px text:color:black display:grid gap:20px grid:column:3"
+    >
+      {{#foreach posts}}
+        <article class="our_blog-list">
+          <a href="{{url}}" class="our_blog--link">
+            <div class="our_blog--image">
+            {{#if feature_image}}
+                <figure class="article-image">
+                {{!-- This is a responsive image, it loads different sizes depending on device
+                https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 --}}
+                <img
+                srcset="{{img_url feature_image size="s"}} 300w,
+                {{img_url feature_image size="m"}} 600w,
+                {{img_url feature_image size="l"}} 1000w,
+                {{img_url feature_image size="xl"}} 2000w"
+                sizes="(min-width: 1400px) 1400px, 92vw"
+                src="{{img_url feature_image size="xl"}}"
+                alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+                />
+                </figure>
+            {{/if}}
+            </div>
+            <div class="our_blog--contentWrapper">
+              <div class="our_blog--title font:size:28px">{{title}}</div>
+
+              <div class="our_blog--content">
+                <p></p>
+                <i class="icon">
+                  <span class="icon--top">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" fill="none" viewBox="0 0 33 32">
+                      <path fill="#fff" fill-rule="evenodd"
+                        d="M28.5 5a1 1 0 0 0-1-1h-12a1 1 0 1 0 0 2h9.586L4.792 26.292a1.001 1.001 0 1 0 1.416 1.416L26.5 7.414V17a1 1 0 0 0 2 0V5Z"
+                        clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                  <span class="icon--bottom">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" fill="none" viewBox="0 0 33 32">
+                      <path fill="#fff" fill-rule="evenodd"
+                        d="M28.5 5a1 1 0 0 0-1-1h-12a1 1 0 1 0 0 2h9.586L4.792 26.292a1.001 1.001 0 1 0 1.416 1.416L26.5 7.414V17a1 1 0 0 0 2 0V5Z"
+                        clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                </i>
+              </div>
+            </div>
+          </a>
+        </article>
+      {{/foreach}}
+    </div>
+  </section>
+  {{pagination}}
+</main>
